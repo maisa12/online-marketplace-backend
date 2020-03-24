@@ -12,7 +12,8 @@ module.exports = sequelize.define('category', {
      },
      position:{
        type: Sequelize.INTEGER,
-       allowNull: false
+       allowNull: false,
+       unique: true
      },
      slug:{
        type: Sequelize.STRING,

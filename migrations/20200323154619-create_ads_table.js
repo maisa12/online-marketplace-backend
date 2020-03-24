@@ -13,6 +13,10 @@ module.exports = {
          type: Sequelize.STRING,
          allowNull: false
        },
+       author:{
+        type: Sequelize.STRING,
+        allowNull: false
+      },
        category:{
          type: Sequelize.STRING,
          allowNull: false
