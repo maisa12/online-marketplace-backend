@@ -14,7 +14,7 @@ module.exports = {
          allowNull: false
        },
        author:{
-        type: Sequelize.STRING,
+        type: Sequelize.BIGINT,
         allowNull: false
       },
        category:{

@@ -3,7 +3,6 @@ const sequelize = require('./connection');
 module.exports = sequelize.define('category', {
     id: {
         type: Sequelize.BIGINT,
-        primaryKey: true,
         autoIncrement: true
     },
     name: {
@@ -17,7 +16,8 @@ module.exports = sequelize.define('category', {
      },
      slug:{
        type: Sequelize.STRING,
-       allowNull: false
+       allowNull: false,
+       primaryKey: true
      },
      createdAt: Sequelize.DATE,
      updatedAt: Sequelize.DATE

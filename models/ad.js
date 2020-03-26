@@ -11,7 +11,7 @@ module.exports = sequelize.define('ad', {
        allowNull: false
      },
      author:{
-      type: Sequelize.STRING,
+      type: Sequelize.BIGINT,
       allowNull: false
     },
      category:{

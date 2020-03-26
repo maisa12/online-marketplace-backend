@@ -2,32 +2,38 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('categories',
-    {
+    return queryInterface.createTable('users', {
       id: {
           type: Sequelize.BIGINT,
           primaryKey: true,
           autoIncrement: true
       },
-      name: {
+      name_lastname: {
          type: Sequelize.STRING,
          allowNull: false
        },
-       position:{
-         type: Sequelize.INTEGER,
+       status: {
+          type: Sequelize.STRING,
+          allowNull: false
+       },
+       email:{
+         type: Sequelize.TEXT,
          allowNull: false
        },
-       slug:{
-         type: Sequelize.STRING,
+       phone_number:{
+         type: Sequelize.BIGINT,
          allowNull: false
+       },
+       password:{
+           type: Sequelize.STRING,
+           allowNull: false
        },
        createdAt: Sequelize.DATE,
        updatedAt: Sequelize.DATE
-  }
-    )
+  })
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('ads')
+    return queryInterface.dropTable('users')
   }
 };

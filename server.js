@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const {createUser, categoryArr, authorArr, createCategory, createAd} = require('./query');
+const {createUser, categoryArr, authorArr, createCategory, createAd, adList, catList, usersArr} = require('./query');
 const port = process.env.PORT || 8000;
 app.use(cors());
 var bodyParser = require('body-parser');
@@ -17,17 +17,28 @@ app.post('/add/user', jsonParser, async(req,res)=>{
       res.send(response);
    })
    app.post('/add/ad', jsonParser, async(req,res)=>{
-    const {name, author, category, description, picture, price, active} = req.body;
-   const response = await createAd(name, author, category, description, picture, price, active);
+      const {name, author, category, description, picture, price, active} = req.body;
+      const response = await createAd(name, author, category, description, picture, price, active);
       res.send(response);
    })
    app.get('/category', jsonParser, async(req,res)=>{
-   const resp = await categoryArr();
+      const resp = await categoryArr();
       res.send(JSON.stringify(resp));
    })
    app.get('/authors', jsonParser, async(req,res)=>{
-    const resp = await authorArr();
-       res.send(JSON.stringify(resp));
+      const resp = await authorArr();
+      res.send(JSON.stringify(resp));
     })
-   
+   app.get('/ads', jsonParser, async(req,res)=>{
+      const resp = await adList();
+      res.send(JSON.stringify(resp));
+      })
+   app.get('/categories', jsonParser, async(req,res)=>{
+      const resp = await catList();
+      res.send(JSON.stringify(resp));
+      })
+   app.get('/users', jsonParser, async(req,res)=>{
+      const resp = await usersArr();
+      res.send(JSON.stringify(resp));
+         })
 app.listen(port, ()=>console.log(`Server is listening: ${port}`))
