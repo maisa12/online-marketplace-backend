@@ -3,6 +3,8 @@ const category = require('./models/category')
 const user = require('./models/user')
 category.hasMany(ad, {as: "ads", foreignKey:"category"});
 ad.belongsTo(category, {as: "categories", foreignKey: "category"});
+user.hasMany(ad, {as: "ads", foreignKey:"author"});
+ad.belongsTo(user, {as: 'users', foreignKey:"author"});
 
 let createAd = async function(name, author, category, description, picture, price, active){
          await ad.create({
@@ -81,10 +83,10 @@ let authorArr = async()=>{
     return authorArray
  }
  let adList = async()=>{
-const list =  await ad.findAll({
-    raw: true,
-    include:[{ model: category, as: "categories", attributes: ['name']}],})
-                        .catch(e=>console.log(e));
+    const list = await ad.findAll({
+        raw:true,
+        include: [{ model: user, as: "users", attributes: [['name_lastname', 'author']]}]
+    });
     return list
  }
  let catList =async ()=>{
@@ -95,6 +97,9 @@ const list =  await ad.findAll({
     const usersArray = await user.findAll({raw: true, attributes: [['name_lastname', 'name'], 'id', 'status', 'email', ['phone_number', 'number']]});
     return usersArray
  }
+
+
+
 module.exports.createAd = createAd;
 module.exports.createCategory = createCategory;
 module.exports.createUser = createUser;
