@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const {createUser, categoryArr, authorArr, createCategory, createAd, adList, catList, usersArr} = require('./query');
+const {deleteItem, userUpdate, createUser, categoryArr, authorArr, createCategory, createAd, adList, catList, usersArr, adUpdate, catUpdate} = require('./query');
 const port = process.env.PORT || 8000;
 app.use(cors());
 var bodyParser = require('body-parser');
@@ -41,4 +41,24 @@ app.post('/add/user', jsonParser, async(req,res)=>{
       const resp = await usersArr();
       res.send(JSON.stringify(resp));
          })
+   app.put('/update/ad/:id', jsonParser, async(req,res)=>{
+       const {name,  category,  description, picture, active, price}=req.body;
+       await adUpdate(name,  category,  description, picture, active, price, req.params.id)
+      res.send("success");
+       })
+   app.put('/update/category/:id', jsonParser, async(req,res)=>{
+      const {name,  position,  slug, id} = req.body;
+       await catUpdate(name,  position,  slug, id)
+        res.send("success");
+         })
+    app.put('/update/user/:id', jsonParser, async(req,res)=>{
+       const {name, lastname, email, status, phoneNumber, password, id} = req.body;
+      const usUp = await userUpdate(name+"%"+lastname, email, phoneNumber, status, password, id);
+       res.send(usUp);
+               }) 
+app.delete('/delete/:type/:id', async(req,res)=>{
+   await deleteItem(req.params.type, req.params.id);
+   res.send("deleted");
+})
+
 app.listen(port, ()=>console.log(`Server is listening: ${port}`))
