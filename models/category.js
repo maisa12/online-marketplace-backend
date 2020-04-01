@@ -7,7 +7,7 @@ module.exports = sequelize.define('category', {
     },
     name: {
        type: Sequelize.STRING,
-       allowNull: false
+       allowNull: false 
      },
      position:{
        type: Sequelize.INTEGER,

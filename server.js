@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const {deleteItem, userUpdate, createUser, categoryArr, authorArr, createCategory, createAd, adList, catList, usersArr, adUpdate, catUpdate} = require('./query');
+const {selectCategory, deleteItem, userUpdate, createUser, categoryArr, authorArr, createCategory, createAd, adList, catList, usersArr, adUpdate, catUpdate, mainList} = require('./query');
 const port = process.env.PORT || 8000;
 app.use(cors());
 var bodyParser = require('body-parser');
@@ -33,6 +33,14 @@ app.post('/add/user', jsonParser, async(req,res)=>{
       const resp = await adList();
       res.send(JSON.stringify(resp));
       })
+      app.get('/ads/:slug/:from/:to', jsonParser, async(req,res)=>{
+         const resp = await selectCategory(req.params.slug, req.params.from, req.params.to);
+         res.send(JSON.stringify(resp));
+         })
+    app.get('/main/ads', jsonParser, async(req,res)=>{
+         const resp = await mainList(req.params.slug);
+         res.send(JSON.stringify(resp));
+         })
    app.get('/categories', jsonParser, async(req,res)=>{
       const resp = await catList();
       res.send(JSON.stringify(resp));
@@ -41,6 +49,7 @@ app.post('/add/user', jsonParser, async(req,res)=>{
       const resp = await usersArr();
       res.send(JSON.stringify(resp));
          })
+  
    app.put('/update/ad/:id', jsonParser, async(req,res)=>{
        const {name,  category,  description, picture, active, price}=req.body;
        await adUpdate(name,  category,  description, picture, active, price, req.params.id)

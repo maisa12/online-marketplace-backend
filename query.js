@@ -1,11 +1,10 @@
 const ad = require('./models/ad');
-const category = require('./models/category')
-const user = require('./models/user')
-category.hasMany(ad, {as: "ads", foreignKey:"category"});
-ad.belongsTo(category, {as: "categories", foreignKey: "category"});
+const category = require('./models/category');
+const user = require('./models/user');
+const {Op} = require('sequelize');
 user.hasMany(ad, {as: "ads", foreignKey:"author"});
 ad.belongsTo(user, {as: 'users', foreignKey:"author"});
-
+ad.belongsTo(category, {as: 'categories', foreignKey: 'category'});
 let createAd = async function(name, author, category, description, picture, price, active){
          await ad.create({
             name: name,
@@ -85,8 +84,8 @@ let authorArr = async()=>{
  let adList = async()=>{
     const list = await ad.findAll({
         raw:true,
-        include: [{ model: user, as: "users", attributes: [['name_lastname', 'author'], 'id']}]
-    });
+        include: [{ model: category, as: "categories",  attributes: ['name']}, {model: user, as: "users", attributes: [['name_lastname', 'author']]} ]
+    })
     return list
  }
  let catList =async ()=>{
@@ -158,6 +157,54 @@ let userUpdate = async (name, email, phone, status, password, id)=>{
      }
     
  }
+let main = async(slug)=>{   
+        const list = await ad.findAll({
+            where:{
+                category:slug,
+                active: true
+            },
+            raw: true,
+            limit: 3,
+            order: [['updatedAt', 'DESC']],
+            include: [{ model: category, as: "categories",  attributes: ['name']}, {model: user, as: "users", attributes: [['name_lastname', 'author']]} ]
+        })
+        return list
+}
+let mainList =async()=>{
+    let adsArray = [];
+    const categoryList =await categoryArr();
+    for(let item of categoryList){
+      const request = await main(item.slug);
+      adsArray = adsArray.concat(request)
+    }
+
+    return adsArray
+}
+let selectCategory = async(slug, from, to)=>{   
+    var priceTo ={
+        [Op.gte]: from
+    };
+    if(to!=='0'){
+        priceTo={
+                [Op.gte]: from,
+                [Op.lte]: to
+            }
+        
+    }
+    const list = await ad.findAll({
+        where:{
+            category:slug,
+            active: true,
+            price: priceTo
+        },
+        raw: true,
+        order: [['updatedAt', 'DESC']],
+        include: [{ model: category, as: "categories",  attributes: ['name']}, {model: user, as: "users", attributes: [['name_lastname', 'author']]} ]
+    })
+    return list
+}
+
+
 
 module.exports.createAd = createAd;
 module.exports.createCategory = createCategory;
@@ -171,3 +218,5 @@ module.exports.adUpdate = adUpdate;
 module.exports.catUpdate = catUpdate;
 module.exports.userUpdate = userUpdate;
 module.exports.deleteItem = deleteItem;
+module.exports.mainList = mainList;
+module.exports.selectCategory = selectCategory;
