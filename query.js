@@ -180,10 +180,21 @@ let mainList =async()=>{
 
     return adsArray
 }
-let selectCategory = async(slug, from, to)=>{   
+let selectCategory = async(slug, from, to, dateBl)=>{ 
+    console.log(dateBl)  
+    var date = new Date(Date.now()); 
     var priceTo ={
         [Op.gte]: from
     };
+    var dt = {
+        [Op.lte]: date
+    };
+    if(dateBl==="true"){
+        date.setDate(date.getDate()-7);
+        dt = {
+            [Op.gte]: date 
+        }; 
+    }
     if(to!=='0'){
         priceTo={
                 [Op.gte]: from,
@@ -195,7 +206,8 @@ let selectCategory = async(slug, from, to)=>{
         where:{
             category:slug,
             active: true,
-            price: priceTo
+            price: priceTo,
+            updatedAt: dt
         },
         raw: true,
         order: [['updatedAt', 'DESC']],
@@ -203,9 +215,6 @@ let selectCategory = async(slug, from, to)=>{
     })
     return list
 }
-
-
-
 module.exports.createAd = createAd;
 module.exports.createCategory = createCategory;
 module.exports.createUser = createUser;
