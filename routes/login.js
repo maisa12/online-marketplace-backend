@@ -22,6 +22,7 @@ module.exports = app => {
                         auth: true,
                         token: token,
                         name: user.name_lastname,
+                        status: user.status,
                         message: 'User found & logged in'
                     })
             }

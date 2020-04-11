@@ -19,6 +19,7 @@ module.exports = app => {
                         name: user.name_lastname,
                         email: user.email,
                         phone_number: user.phone_number,
+                        status: user.status
                     })
             }
         })(req, res, next)

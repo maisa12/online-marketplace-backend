@@ -23,7 +23,6 @@ passport.use(
             return done(null, false, {message: "მოცემული ელ-ფოსტით მომხმარებელი უკვე დარეგისტრირებულია"})
         }
         else{
-            console.log("registracia")
            done(null, user)
         }
     }) 
@@ -49,16 +48,12 @@ passport.use(
             raw: true
         }).then(user=>{
             if(user===null){
-                console.log("login emaili arra swori")
                 return done(null, false, {message: 'ელ-ფოსტა ან პაროლი არ არის სწორი'})
             } else{
                 if(user.password===password){
-                    console.log("login shevedit")
-                    return done(null, user)
-                    
+                    return done(null, user)   
                 }
                 else{
-                    console.log("login paroli araaswori")
                     return done(null, false, {message: 'ელ-ფოსტა ან პაროლი არ არის სწორი'})
                 }
             }
