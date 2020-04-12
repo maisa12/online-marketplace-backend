@@ -39,4 +39,7 @@ require('./routes/adminRoutes/updateUser')(app);
 require('./routes/findUser')(app);
 require('./routes/register')(app);
 require('./routes/login')(app);
+//Member requests
+require('./routes/memberRoutes/getAds')(app);
+require('./routes/memberRoutes/getUsersInfo')(app);
 app.listen(port, ()=>console.log(`Server is listening: ${port}`))

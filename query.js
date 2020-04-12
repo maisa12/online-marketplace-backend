@@ -229,3 +229,16 @@ module.exports.userUpdate = userUpdate;
 module.exports.deleteItem = deleteItem;
 module.exports.mainList = mainList;
 module.exports.selectCategory = selectCategory;
+//member requests 
+let memberAds = async(userId) =>{
+    const list = await ad.findAll({
+        where: {
+            author: userId 
+        },
+        raw: true,
+        order: [['updatedAt', 'DESC']],
+        include: [{ model: category, as: "categories",  attributes: ['name']}, {model: user, as: "users", attributes: [['name_lastname', 'author']]} ]
+    })
+    return list
+}
+module.exports.memberAds = memberAds;
