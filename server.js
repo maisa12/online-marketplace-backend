@@ -23,7 +23,7 @@ app.get('/category', async(req,res)=>{
          res.send(JSON.stringify(resp));
     
       })
-//Admin requests
+//Admin's requests
 require('./routes/adminRoutes/addAd')(app);
 require('./routes/adminRoutes/addCategory')(app);
 require('./routes/adminRoutes/addUser')(app);
@@ -39,7 +39,12 @@ require('./routes/adminRoutes/updateUser')(app);
 require('./routes/findUser')(app);
 require('./routes/register')(app);
 require('./routes/login')(app);
-//Member requests
+//Member's requests
 require('./routes/memberRoutes/getAds')(app);
 require('./routes/memberRoutes/getUsersInfo')(app);
+require('./routes/memberRoutes/newAd')(app);
+require('./routes/memberRoutes/updateAd')(app);
+require('./routes/memberRoutes/deleteAd')(app);
+require('./routes/memberRoutes/updateInfo')(app);
+require('./routes/memberRoutes/updatePassword')(app);
 app.listen(port, ()=>console.log(`Server is listening: ${port}`))

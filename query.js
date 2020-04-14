@@ -242,3 +242,67 @@ let memberAds = async(userId) =>{
     return list
 }
 module.exports.memberAds = memberAds;
+let memberAdUpdate = async (name,  cat,  description, picture, price, id)=>{
+    await ad.update({
+        name: name, category: cat,  description: description, picture: picture, price: price}, 
+     {
+         where: {
+             id: id
+         }
+     })
+     return "success"
+ }
+ module.exports.memberAdUpdate = memberAdUpdate;
+ let memeberInfoUpdate = async (email, name, newEmail, phone)=>{
+     if(email!==newEmail){
+        const check = await user.findAll({
+            raw:true, 
+            where: {
+                email: newEmail
+        }
+    })
+    if(check.length===0){
+        await user.update({
+            name_lastname: name,
+            email: newEmail,
+            phone_number: phone,
+        },
+        {
+            where: {
+                email: email
+            }
+        })
+        return "Updated"
+    }
+    else {
+        return "მოცემული ელფოსტით მომხმარებელი უკვე დარეგისტრირებულია"
+    }
+     }
+     else{
+        await user.update({
+            name_lastname: name,
+            phone_number: phone,
+        },
+        {
+            where: {
+                email: email
+            }
+        })
+        return "Updated"
+     }
+     
+ };
+ module.exports.memeberInfoUpdate = memeberInfoUpdate;
+ let changePassword = async (email, newPassword)=>{
+       await user.update({
+           password: newPassword,
+       },
+       {
+           where: {
+               email: email
+           }
+       })
+       return "Updated"
+    };
+
+module.exports.changePassword = changePassword;
