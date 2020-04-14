@@ -2,13 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser');
-const {selectCategory, categoryArr, mainList} = require('./query');
+const {selectCategory, categoryArr, mainList} = require('./queries/guestQueries');
 const port = process.env.PORT || 8000;
 const passport = require('passport');
 app.use(cors());
 app.use(passport.initialize());
 app.use(bodyParser.json());
 require('./passportConfig/passport');
+require('./queries/associations');
 //Guest requests
 app.get('/ads/:slug/:from/:to/:date', async(req,res)=>{
          const resp = await selectCategory(req.params.slug, req.params.from, req.params.to, req.params.date);
@@ -30,7 +31,6 @@ require('./routes/adminRoutes/addUser')(app);
 require('./routes/adminRoutes/deleteItem')(app);
 require('./routes/adminRoutes/getAds')(app);
 require('./routes/adminRoutes/getAuthors')(app);
-require('./routes/adminRoutes/getCategories')(app);
 require('./routes/adminRoutes/getUsers')(app);
 require('./routes/adminRoutes/updateAd')(app);
 require('./routes/adminRoutes/updateCategory')(app);

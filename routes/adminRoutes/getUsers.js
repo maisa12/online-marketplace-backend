@@ -1,5 +1,5 @@
 const passport = require('passport');
-const {usersArr} = require('../../query');
+const {usersArr} = require('../../queries/adminQueries');
 module.exports = app => {
     app.get('/users', (req, res, next)=>{
         passport.authenticate('jwt', async(err, user, info) => {

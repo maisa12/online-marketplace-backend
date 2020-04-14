@@ -1,5 +1,5 @@
 const passport = require('passport');
-const {adUpdate} = require('../../query');
+const {adUpdate} = require('../../queries/adminQueries');
 module.exports = app => {
     app.put('/update/ad/:id', (req, res, next)=>{
         passport.authenticate('jwt', async(err, user, info) => {

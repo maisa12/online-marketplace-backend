@@ -1,5 +1,5 @@
 const passport = require('passport');
-const {createUser} = require('../../query');
+const {createUser} = require('../../queries/adminQueries');
 module.exports = app => {
     app.post('/add/user', (req, res, next)=>{
         passport.authenticate('jwt', async(err, user, info) => {

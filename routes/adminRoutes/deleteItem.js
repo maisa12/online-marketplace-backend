@@ -1,5 +1,5 @@
 const passport = require('passport');
-const {deleteItem} = require('../../query');
+const {deleteItem} = require('../../queries/adminQueries');
 module.exports = app => {
     app.delete('/delete/:type/:id', (req, res, next)=>{
         passport.authenticate('jwt', async(err, user, info) => {

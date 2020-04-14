@@ -1,5 +1,5 @@
 const passport = require('passport');
-const {createCategory} = require('../../query');
+const {createCategory} = require('../../queries/adminQueries');
 module.exports = app => {
     app.post('/add/category', (req, res, next)=>{
         passport.authenticate('jwt', async(err, user, info) => {
