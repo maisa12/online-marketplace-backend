@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser');
-const {selectCategory, categoryArr, mainList} = require('./queries/guestQueries');
+const {selectCategory, categoryArr, mainList, selectAd} = require('./queries/guestQueries');
 const port = process.env.PORT || 8000;
 const passport = require('passport');
 app.use(cors());
@@ -19,6 +19,10 @@ app.get('/main/ads', async(req,res)=>{
          const resp = await mainList(req.params.slug);
          res.send(JSON.stringify(resp));
          })
+app.get('/ad/:id', async(req,res)=>{
+            const resp = await selectAd(req.params.id);
+            res.send(JSON.stringify(resp));
+            })
 app.get('/category', async(req,res)=>{
          const resp = await categoryArr();
          res.send(JSON.stringify(resp));

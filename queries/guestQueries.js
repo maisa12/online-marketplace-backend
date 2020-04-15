@@ -64,6 +64,17 @@ let categoryArr = async()=>{
      })
      return list
  }
- module.exports.categoryArr = categoryArr;
- module.exports.mainList = mainList;
- module.exports.selectCategory = selectCategory; 
+ let selectAd = async(id)=>{ 
+    const adContent = await ad.findOne({
+        where:{
+            id: id,
+        },
+        raw: true,
+        include: [{ model: category, as: "categories",  attributes: ['name']}, {model: user, as: "users", attributes: [['name_lastname', 'author']]} ]
+    })
+    return adContent
+}
+module.exports.selectAd  = selectAd;
+module.exports.categoryArr = categoryArr;
+module.exports.mainList = mainList;
+module.exports.selectCategory = selectCategory; 
