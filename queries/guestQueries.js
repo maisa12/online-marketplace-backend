@@ -30,7 +30,8 @@ let categoryArr = async()=>{
  
      return adsArray
  }
- let selectCategory = async(slug, from, to, dateBl)=>{ 
+ let selectCategory = async(slug, from, to, dateBl, offset)=>{
+
      var date = new Date(Date.now()); 
      var priceTo ={
          [Op.gte]: from
@@ -51,7 +52,7 @@ let categoryArr = async()=>{
              }
          
      }
-     const list = await ad.findAll({
+     const list = await ad.findAndCountAll({
          where:{
              category:slug,
              active: true,
@@ -59,11 +60,15 @@ let categoryArr = async()=>{
              updatedAt: dt
          },
          raw: true,
+         limit : 10,
+         offset : Math.round((offset-1)*10),
          order: [['updatedAt', 'DESC']],
          include: [{ model: category, as: "categories",  attributes: ['name']}, {model: user, as: "users", attributes: [['name_lastname', 'author']]} ]
      })
-     return list
+    return list
  }
+ 
+
  let selectAd = async(id)=>{ 
     const adContent = await ad.findOne({
         where:{
@@ -74,6 +79,8 @@ let categoryArr = async()=>{
     })
     return adContent
 }
+
+
 module.exports.selectAd  = selectAd;
 module.exports.categoryArr = categoryArr;
 module.exports.mainList = mainList;

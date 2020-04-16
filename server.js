@@ -11,8 +11,8 @@ app.use(bodyParser.json());
 require('./passportConfig/passport');
 require('./queries/associations');
 //Guest requests
-app.get('/ads/:slug/:from/:to/:date', async(req,res)=>{
-         const resp = await selectCategory(req.params.slug, req.params.from, req.params.to, req.params.date);
+app.get('/ads/:slug/:from/:to/:date/:offset', async(req,res)=>{
+         const resp = await selectCategory(req.params.slug, req.params.from, req.params.to, req.params.date, req.params.offset);
          res.send(JSON.stringify(resp));
          })
 app.get('/main/ads', async(req,res)=>{
