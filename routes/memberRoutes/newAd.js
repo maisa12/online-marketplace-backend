@@ -13,7 +13,7 @@ module.exports = app => {
                     });
             }
             else{
-                    if(user.status==="member"){
+                    if(user.status!==null){
                         const {name, category, description, picture, price} = req.body;
                         const resp = await createAd(name, user.id, category, description, picture, price, false);
                         res.send(resp);

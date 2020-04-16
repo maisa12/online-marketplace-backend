@@ -13,7 +13,7 @@ module.exports = app => {
                     });
             }
             else{
-                    if(user.status==="member"){
+                    if(user.status!==null){
                         await deleteItem("ad", req.params.id);
                         res.send("deleted");
                     }

@@ -13,7 +13,7 @@ module.exports = app => {
                     });
             }
             else{   
-                    if(user.status==="member"){
+                    if(user.status!==null){
                         var member ={
                             name: user.name_lastname, 
                             status: user.status,

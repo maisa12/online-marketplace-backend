@@ -13,7 +13,7 @@ module.exports = app => {
                     });
             }
             else{
-                    if(user.status==="member"){
+                    if(user.status!==null){
                         const {name, email, phone} = req.body;
                         const userUpdate = await memeberInfoUpdate(user.email, name, email, phone)
                         res.send(userUpdate);

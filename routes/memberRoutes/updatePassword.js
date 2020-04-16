@@ -13,7 +13,7 @@ module.exports = app => {
                     });
             }
             else{
-                    if(user.status==="member"){
+                    if(user.status!==null){
                         const {oldPassword, newPassword} = req.body;
                         if(user.password===oldPassword){
                            const update = await changePassword(user.email, newPassword);

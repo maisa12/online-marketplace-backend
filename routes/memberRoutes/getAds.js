@@ -13,7 +13,7 @@ module.exports = app => {
                     });
             }
             else{
-                    if(user.status==="member"){
+                    if(user.status!==null){
                         const resp = await memberAds(user.id);
                         res.send(JSON.stringify(resp));
                     }
