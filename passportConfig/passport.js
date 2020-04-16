@@ -39,11 +39,11 @@ passport.use(
         usernameField: 'email',
         passwordField: 'password'
     },
-    (email, password, done) => {
+    (username, password, done) => {
         try{
         User.findOne({
             where: {
-                email: email
+                email: username
             },
             raw: true
         }).then(user=>{
