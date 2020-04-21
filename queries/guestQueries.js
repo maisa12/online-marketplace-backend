@@ -3,7 +3,11 @@ const category = require('../models/category');
 const user = require('../models/user');
 const {Op} = require('sequelize');
 let categoryArr = async()=>{
-    const categoryArray = await category.findAll({raw: true, attributes: ['name', 'position', 'slug', 'id']});
+    const categoryArray = await category.findAll({
+        raw: true,
+        order: [['position', 'ASC']],
+        attributes: ['name', 'position', 'slug', 'id']
+    });
     return categoryArray
  }
  

@@ -14,7 +14,8 @@ module.exports = app => {
             }
             else{
                     if(user.status==="admin"){
-                        const response = await createCategory(req.body.name, req.body.position, req.body.slug);
+                        const {name, position, slug} = req.body;
+                        const response = await createCategory(name, position, slug);
                         res.send(response)
                     }
                    else{
