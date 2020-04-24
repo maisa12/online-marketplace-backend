@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser');
+const queryString = require('query-string');
 const {selectCategory, categoryArr, mainList, selectAd} = require('./queries/guestQueries');
 const port = process.env.PORT || 8000;
 const passport = require('passport');
@@ -11,23 +12,25 @@ app.use(bodyParser.json());
 require('./passportConfig/passport');
 require('./queries/associations');
 //Guest requests
-app.get('/ads/:slug/:from/:to/:date/:offset', async(req,res)=>{
-         const resp = await selectCategory(req.params.slug, req.params.from, req.params.to, req.params.date, req.params.offset);
-         res.send(JSON.stringify(resp));
-         })
+app.get('/posts/:query', async(req,res)=>{
+      const query = queryString.parse(req.params.query);
+      let {slug, from, to, lastWeek, pageNumber} = query;
+      const resp = await selectCategory(slug, from, to, lastWeek, pageNumber);
+      res.send(JSON.stringify(resp));
+         });
 app.get('/main/ads', async(req,res)=>{
          const resp = await mainList(req.params.slug);
          res.send(JSON.stringify(resp));
-         })
+         });
 app.get('/ad/:id', async(req,res)=>{
             const resp = await selectAd(req.params.id);
             res.send(JSON.stringify(resp));
-            })
+            });
 app.get('/category', async(req,res)=>{
          const resp = await categoryArr();
          res.send(JSON.stringify(resp));
     
-      })
+      });
 //Admin's requests
 require('./routes/adminRoutes/addAd')(app);
 require('./routes/adminRoutes/addCategory')(app);
