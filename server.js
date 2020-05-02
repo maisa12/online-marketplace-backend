@@ -13,9 +13,11 @@ require('./passportConfig/passport');
 require('./queries/associations');
 //Guest requests
 app.get('/posts/:query', async(req,res)=>{
+
       const query = queryString.parse(req.params.query);
-      let {slug, from, to, lastWeek, pageNumber} = query;
-      const resp = await selectCategory(slug, from, to, lastWeek, pageNumber);
+      let {slug, from, to, lastWeek, pageNumber, postName} = query;
+      const resp = await selectCategory(slug, from, to, lastWeek, pageNumber, postName);
+  
       res.send(JSON.stringify(resp));
          });
 app.get('/main/ads', async(req,res)=>{

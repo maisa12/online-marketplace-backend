@@ -34,9 +34,10 @@ let categoryArr = async()=>{
  
      return adsArray
  }
- let selectCategory = async(slug, from, to, dateBl, offset)=>{
-
+ let selectCategory = async(slug, from, to, dateBl, offset, postName)=>{
+     let searchquery;
      var date = new Date(Date.now()); 
+    
      var priceTo ={
          [Op.gte]: from
      };
@@ -56,19 +57,47 @@ let categoryArr = async()=>{
              }
          
      }
+     if(postName!==undefined && slug!==undefined){
+        searchquery = {
+            category:slug,
+            name: postName,
+            active: true,
+            price: priceTo,
+            updatedAt: dt,
+        }
+     }
+    else if(postName!==undefined ){
+        searchquery = {
+            name: postName,
+            active: true,
+            price: priceTo,
+            updatedAt: dt,
+        }
+    }
+    else if(slug!==undefined){
+        searchquery = {
+            category:slug,
+            active: true,
+            price: priceTo,
+            updatedAt: dt,
+        }
+    }
+    else{
+        searchquery = {
+            active: true,
+            price: priceTo,
+            updatedAt: dt,
+        }
+    }
      const list = await ad.findAndCountAll({
-         where:{
-             category:slug,
-             active: true,
-             price: priceTo,
-             updatedAt: dt
-         },
-         raw: true,
-         limit : 10,
-         offset : Math.round((offset-1)*10),
-         order: [['updatedAt', 'DESC']],
-         include: [{ model: category, as: "categories",  attributes: ['name']}, {model: user, as: "users", attributes: [['name_lastname', 'author']]} ]
+        where:searchquery,
+        raw: true,
+        limit : 10,
+        offset : Math.round((offset-1)*10),
+        order: [['updatedAt', 'DESC']],
+        include: [{ model: category, as: "categories",  attributes: ['name']}, {model: user, as: "users", attributes: [['name_lastname', 'author']]} ]
      })
+   
     return list
  }
  
